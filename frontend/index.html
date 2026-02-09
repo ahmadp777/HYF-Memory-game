@@ -1,13 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chewy&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
     <title>Memory Game</title>
-</head>
-<body>
-    <h1>Hi there! Welcome to the Memory Game</h1>
+  </head>
+  <body>
+    <!-- Screen 1 : Home Screen -->
+    <div id="home">
+      <h1>MEMORY GAME!</h1>
+      <p>Match the Emojis to win!</p>
+      <button onclick="showLevelsScreen()">Let's Play</button>
+    </div>
+
+    <!-- Screen 2 : Level Selection -->
+    <div id="levels">
+      <h2>CHOOSE YOUR LEVEL</h2>
+      <p>Select your game level between easy, medium or hard!</p>
+      <div class="level">
+        <button onclick="showGameScreen('easy')" class="level-btn">Easy</button>
+        <button onclick="showGameScreen('medium')" class="level-btn">
+          Medium
+        </button>
+        <button onclick="showGameScreen('hard')" class="level-btn">Hard</button>
+      </div>
+      <button id="back-btn" onclick="showHomeScreen()">Back</button>
+    </div>
+
+    <!-- Screen 3 : Game Screen -->
+    <div id="game">
+      <div class="game-board">
+        <!-- Cards will be generated here -->
+         <div class="card">
+            <div class="card-inner" onclick="setUpCardImages(this);">
+                <div class="front">
+                    Front
+                </div>
+                <div class="back" >
+                    <img id="cardImg" src="" alt="emojis"/>
+                    
+                </div>
+            </div>
+         </div>
+        </div>
+        <button id="back-btn" onclick="showLevelsScreen()">Back</button>
+      </div>
+    </div>
+
+
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
