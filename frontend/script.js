@@ -27,8 +27,9 @@ function showGameScreen(level){
 }
 
 // Card Image Setup
-function setUpCardImages(){
+function setUpCardImages(cardElement){
     console.log('setting up card images');
+    cardElement.classList.toggle('flipped');
     const backCard = document.getElementById('cardImg');
     backCard.src = './assets/cool.png';
 
