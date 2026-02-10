@@ -25,11 +25,11 @@
       <h2>CHOOSE YOUR LEVEL</h2>
       <p>Select your game level between easy, medium or hard!</p>
       <div class="level">
-        <button onclick="showGameScreen('easy')" class="level-btn">Easy</button>
-        <button onclick="showGameScreen('medium')" class="level-btn">
+        <button data-rows="3" data-columns="4" onclick="showGameScreen('easy')" class="level-btn">Easy</button>
+        <button data-rows="4" data-columns="4" onclick="showGameScreen('medium')" class="level-btn">
           Medium
         </button>
-        <button onclick="showGameScreen('hard')" class="level-btn">Hard</button>
+        <button data-rows="4" data-columns="5" onclick="showGameScreen('hard')" class="level-btn">Hard</button>
       </div>
       <button id="back-btn" onclick="showHomeScreen()">Back</button>
     </div>
@@ -44,7 +44,7 @@
                     Front
                 </div>
                 <div class="back" >
-                    <img id="cardImg" src="" alt="emojis"/>
+                    <div id="cardImg">  </div>
                     
                 </div>
             </div>
