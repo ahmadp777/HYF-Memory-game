@@ -67,9 +67,16 @@ buttons.forEach(button => {
 
 // Fetching Emojis from API
 async function fetchEmojis(category = "smileys and people") {
-    const response = await fetch(`https://emojihub.yurace.pro/api/all/category/${category}`); 
+   try { const response = await fetch(`https://emojihub.yurace.pro/api/all/category/${category}`); 
+   if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
     const emojis = await response.json();
     return emojis;
+    } catch (error) {
+        console.error("Failed to fetch emojis:", error); 
+        return [];
+    }
 }
 
 // Random Emoji pairs Assignment
