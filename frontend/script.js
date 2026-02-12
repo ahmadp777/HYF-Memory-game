@@ -5,9 +5,31 @@ const homeScreen = document.getElementById('home');
 const levelScreen = document.getElementById('levels');
 const gameScreen = document.getElementById('game');
 
+const scoreDisplay = document.getElementById("score");
+const timeDisplay = document.getElementById("time");
+
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;  
+
+let score = 0;
+let matchedPairs = 0;
+let totalPairs = 0;
+
+let timer = 0;
+let timerInterval = null;
+let timerStarted = false;
+
+const startTimer = () => {
+    timerInterval = setInterval(() => {
+        timer++;
+        timeDisplay.textContent = timer;
+    }, 1000);
+}
+
+const stopTimer = () => {
+    clearInterval(timerInterval);
+}
 
 function showHomeScreen(){
     console.log('showing home screen');
@@ -40,11 +62,20 @@ function setUpCardImages(cardElement){
     // const backCard = document.getElementById('cardImg');
     // backCard.src = './assets/cool.png';
 
+    if(!timerStarted){
+        startTimer();
+        timerStarted = true;
+    }
+
     if(!firstCard){
         firstCard = cardElement;
         return;
     } else {
         secondCard = cardElement;
+
+        score++;   
+        scoreDisplay.textContent = score;
+
         lockBoard = true;
         setTimeout(checkForMatch, 1500); 
     }    
@@ -61,7 +92,7 @@ buttons.forEach(button => {
     button.addEventListener("click", () => {
         const rows= Number(button.dataset.rows);
         const columns= Number(button.dataset.columns);
-        creategameBoard(rows, columns);
+        createGameBoard(rows, columns);
     });
 });
 
@@ -98,23 +129,36 @@ async function assignEmojisToCards(count , category= "smileys and people") {
 }   
 
 
-async function creategameBoard(rows, columns) {
+async function createGameBoard(rows, columns) {
     firstCard = null;
     secondCard = null;
     lockBoard = false;  
 
+    score = 0;
+    matchedPairs = 0;
+    timer = 0;
+    timerStarted = false;
+    stopTimer();
+
+    scoreDisplay.textContent = 0;
+    timeDisplay.textContent = 0;
+
     board.style.setProperty('--rows', rows);
     board.style.setProperty('--columns', columns);
+    
     const totalCards= rows * columns; 
+    totalPairs = totalCards / 2;
+
+    document.getElementById("victory-overlay").classList.add("hidden");
 
     board.innerHTML = '';
 
-    const emojipairs= await assignEmojisToCards(totalCards);
+    const emojiPairs= await assignEmojisToCards(totalCards);
 
     for (let i=0; i< totalCards; i++) {
         const card = templateCard.cloneNode(true);
         card.style.visibility = 'visible';
-        const emoji = emojipairs[i];
+        const emoji = emojiPairs[i];
         card.dataset.emojiName = emoji.name;
 
         const imgElement = card.querySelector('#cardImg');
@@ -135,17 +179,31 @@ function checkForMatch() {
     if(isMatch){
         disappearCards();
     } else {
-       unflipCards();
+       unFlipCards();
     }
 }
 
 function disappearCards() {
     firstCard.closest('.card').style.visibility = 'hidden';
     secondCard.closest('.card').style.visibility = 'hidden';
+
+    matchedPairs++;
+
+    if(matchedPairs === totalPairs){
+        stopTimer();
+
+        setTimeout(() => {
+            document.getElementById("final-score").textContent = score;
+            document.getElementById("final-time").textContent = timer;
+
+            document.getElementById("victory-overlay").classList.remove("hidden");
+        }, 500);
+    }
+
     resetBoard();
 }
 
-function unflipCards() {
+function unFlipCards() {
     firstCard.classList.remove('flipped');
     secondCard.classList.remove('flipped');
     resetBoard();
