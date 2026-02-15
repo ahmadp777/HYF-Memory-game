@@ -77,7 +77,7 @@ function setUpCardImages(cardElement){
         scoreDisplay.textContent = score;
 
         lockBoard = true;
-        setTimeout(checkForMatch, 1500); 
+        setTimeout(checkForMatch, 1000); 
     }    
 }
 
