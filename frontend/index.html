@@ -36,6 +36,19 @@
 
     <!-- Screen 3 : Game Screen -->
     <div id="game">
+      <div id="victory-overlay" class="hidden">
+        <div class="victory-box">
+          <h2>🎉 Congratulations!</h2>
+          <p>You completed the game!</p>
+          <p>Moves: <span id="final-score"></span></p>
+          <p>Time: <span id="final-time"></span>s</p>
+          <button onclick="showLevelsScreen()">Play Again</button>
+        </div>
+      </div>
+      <div class="score-panel"> 
+        <div class="score">Moves: <span id="score">0</span></div>
+        <div class="timer">Time: <span id="time">0</span>s</div>
+      </div>
       <div class="game-board">
         <!-- Cards will be generated here -->
          <div class="card">
