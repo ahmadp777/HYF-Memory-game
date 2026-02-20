@@ -193,8 +193,14 @@ function disappearCards() {
 
     if(matchedPairs === totalPairs){
         stopTimer();
+        finishedGame();
+    }
 
-        setTimeout(() => {
+    resetBoard();
+}
+
+function finishedGame() {
+            setTimeout(() => {
             document.getElementById("final-moves").textContent = moves;
             document.getElementById("final-score").textContent = score;
             document.getElementById("final-time").textContent = timer;
@@ -218,10 +224,48 @@ function disappearCards() {
             });
 
         }, 500);
-    }
 
-    resetBoard();
+        //winning page is not shown after adding these 2 lines
+        savescore(player, score, level);
+        const leaderboard = fetchLeaderboard(level);
+}   
+
+async function savescore(userName, score, difficulty) {
+    try {
+        const response = await fetch('http://localhost:3000/score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: userName,
+                score: score,
+                difficulty: difficulty
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save score');
+        }
+    } catch (error) {
+        console.error('Error saving score:', error);
+    }
 }
+
+async function fetchLeaderboard(difficulty) {
+    try {const response = await fetch(`http://localhost:3000/leaderboard?difficulty=${difficulty}`);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }   
+    const leaderboard = await response.json();
+    return leaderboard;
+    } catch (error) {
+        console.error("Failed to fetch leaderboard:", error);
+        return [];
+    }
+}
+
+
 
 function unFlipCards() {
     firstCard.classList.remove('flipped');

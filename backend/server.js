@@ -5,6 +5,7 @@ import cors from "cors";
 const app = express();
 const port = 3000;
 app.use(cors());
+app.use(express.json());
 app.use(express.static("backend")); // Serve static files from the images folder
 
 // This connects to the database stored in the file mentioned below
