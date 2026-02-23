@@ -1,5 +1,10 @@
 /* Leaderboard Page */
 
+/* 🟡 [important] - Styling a bare "h1" tag is too global. If pages are ever combined
+   or share stylesheets, this will override other h1 styles unexpectedly.
+   Use a scoped selector like ".leaderboard-page h1" instead. or better, create global styles for 
+   typography in index.css and use classes here for specific overrides */
+   */
 h1 {
   margin-top: clamp(20px, 4vh, 40px);
   margin-bottom: 0;

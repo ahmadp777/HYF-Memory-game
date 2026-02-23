@@ -33,6 +33,9 @@
             <div class="spinner"></div>
             <span class="spinner-label">Loading cards…</span>
         </div>
+        <!-- 🎉 Good use of a hidden HTML template for card cloning -->
+        <!-- 🟡 [important] - id="cardImg" will be duplicated across all cloned cards.
+             IDs must be unique per page. Use a class (e.g., class="card-img") instead. -->
         <!-- Game Board -->
         <div class="game-board">
             <div class="card" style="display:none">

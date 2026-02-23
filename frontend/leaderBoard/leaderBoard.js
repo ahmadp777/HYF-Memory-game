@@ -7,6 +7,8 @@ link.href = `../levels/levels.html?playerName=${playerName}`;
 
 // ---- Leaderboard ----
 
+// 🔴 [blocking] - Hardcoded "http://localhost:3000" - same issue as in game.js.
+// Use relative URLs or a shared config constant.
 async function fetchLeaderboard(difficulty) {
   try {
     const url = difficulty

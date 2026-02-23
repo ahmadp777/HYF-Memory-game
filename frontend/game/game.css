@@ -1,5 +1,10 @@
 /* Game board */
 
+/*
+🟡 [important] Id selector are very specific 
+and should be unique per page. Since you clone the card template multiple times,
+having multiple elements with id="cardImg" will cause issues. Also try to avoid using ids for styling and use classes instead, to keep things flexible and reusable.
+*/
 #game {
   display: flex;
   flex-direction: column;

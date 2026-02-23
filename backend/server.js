@@ -39,6 +39,7 @@ if (!existing) {
   ]);
 }
 
+// 🎉 Well-structured REST API with proper HTTP methods and status codes
 app.get("/cards", async (req, res) => {
   try {
     const { difficulty } = req.query;
@@ -85,6 +86,10 @@ app.post("/score", async (req, res) => {
       .where({ username, difficulty })
       .first();
 
+    // 🔴 [blocking] - This always overwrites the previous score. It should only update if the
+    // new score is HIGHER, otherwise a player's best score gets lost.
+    // Fix: if (existing && score > existing.score) { ... update ... }
+    //      else if (existing) { return res.status(200).json({ message: "Score not updated (not higher)" }); }
     if (existing) {
       await knexInstance("scores")
         .where({ username, difficulty })
@@ -98,6 +103,9 @@ app.post("/score", async (req, res) => {
     res.status(201).json({ message: "Score saved successfully" });
 
   } catch (error) {
+    // 🟡 [important] - Avoid exposing raw error.message to the client in production.
+    // It can leak internal details (file paths, SQL errors, etc.).
+    // Use a generic message like "Internal server error" and log the real error server-side.
     res.status(500).json({ error: error.message });
   }
 });

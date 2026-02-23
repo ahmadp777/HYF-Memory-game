@@ -1,3 +1,5 @@
+// 🎉 Excellent pattern: grouping all DOM references in a single object
+// keeps things organized and easy to maintain
 // ---- DOM refs ----
 const UI = {
     moves: document.getElementById("moves"),
@@ -19,6 +21,8 @@ const LEVEL_CONFIG = {
     hard: { rows: 4, cols: 5 },
 };
 
+// 🎉 Clean state management pattern. Centralizing game state in one object
+// makes it easy to track and reset. Well done!
 // ---- Game state ----
 const state = {
     firstCard: null,
@@ -67,6 +71,8 @@ function hideSpinner() {
     if (UI.board)   UI.board.style.visibility = "visible";
 }
 
+// 🔴 [blocking] - Hardcoded "http://localhost:3000" will break in production/deployment.
+// This applies to ALL fetch calls in this file and leaderBoard.js.
 async function fetchCards(difficulty) {
     const response = await fetch("http://localhost:3000/cards?difficulty=" + difficulty);
     if (!response.ok) throw new Error("Failed to fetch cards: " + response.status);
@@ -92,6 +98,7 @@ async function buildCardPairs(totalCards, difficulty) {
     }
 
     // Duplicate each card to make a pair, then shuffle
+    // 🟡 [important] - sort(() => Math.random() - 0.5) produces a biased shuffle.
     return [...unique, ...unique].sort(() => Math.random() - 0.5);
 }
 
@@ -107,6 +114,7 @@ function createCardElement(emoji) {
     card.dataset.emojiName = emoji.name;
     card.style.display = "";
     card.style.visibility = "visible";
+    // 🔴 [blocking] - Same hardcoded localhost issue here
     img.src = "http://localhost:3000/" + emoji.image;
     img.alt = emoji.name;
     inner.classList.remove("flipped");
@@ -252,6 +260,8 @@ document.querySelectorAll(".level-page").forEach(link => {
     link.href = "../levels/levels.html?playerName=" + encodeURIComponent(PLAYER_NAME || "");
 });
 
+// 🟡 [important] - No try/catch around renderBoard(). If the server is down,
+// the user sees a spinner forever with no error message.
 async function init() {
     resetState();
     await renderBoard();

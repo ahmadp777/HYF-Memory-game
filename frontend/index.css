@@ -1,4 +1,13 @@
 /* base.css */
+/* 🟡 [important] - Avoid using IDs for styling. 
+  Also, consider organizing shared styles (like .spinner) into index.css for better maintainability. 
+  This file should focus global styles only and page-specific styles should be in their respective CSS files. 
+  There are some styles here that seem specific to certain pages (like .spinner, .bottom-nav)
+  that could be moved to their respective CSS files or a shared components CSS file as well
+  as some keyframes that could be moved to a keyframes.css for better organization and typography styles for h1, h2, p, button that could be moved to a typography.css or similar
+  I wish also you used CSS variables for colors, spacing, and typography to maintain consistency and make future updates easier.
+*/
+
 
 * {
   box-sizing: border-box;
