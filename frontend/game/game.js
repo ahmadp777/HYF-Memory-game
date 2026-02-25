@@ -254,8 +254,14 @@ document.querySelectorAll(".level-page").forEach(link => {
 });
 
 async function init() {
-    resetState();
-    await renderBoard();
+    try {              
+      resetState();
+      await renderBoard();    
+    } catch (error) {
+        console.error("Error initializing game:", error);
+        alert("Failed to load game data. Please try again later.");
+        return;
+    }   
 }
 
 init();
