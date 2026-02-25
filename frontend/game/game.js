@@ -42,6 +42,7 @@ function startClock() {
     clock.interval = setInterval(() => {
         clock.seconds++;
         UI.time.textContent = clock.seconds;
+        updateScore(-1);
     }, 1000);
     clock.started = true;
 }
@@ -199,7 +200,7 @@ async function evaluateMatch() {
     const isMatch = getEmojiName(state.firstCard) === getEmojiName(state.secondCard);
 
     if (isMatch) {
-        updateScore(+10);
+        updateScore(+15);
         await onMatchFound();
     } else {
         updateScore(-5);

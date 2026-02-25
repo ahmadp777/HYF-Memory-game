@@ -85,12 +85,15 @@ app.post("/score", async (req, res) => {
       .where({ username, difficulty })
       .first();
 
-    if (existing) {
+    if (existing && score > existing.score) {  //only update if the new score is higher than the existing one
       await knexInstance("scores")
         .where({ username, difficulty })
         .update({ score });
 
       return res.status(200).json({ message: "Score updated successfully" });
+
+    } else if (existing) {  //if the existing score is higher, do not update
+      return res.status(200).json({ message: "Existing score is higher, not updated" });
     }
 
     await knexInstance("scores").insert({ username, score, difficulty });
