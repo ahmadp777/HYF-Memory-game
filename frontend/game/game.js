@@ -1,10 +1,10 @@
 // ---- DOM refs ----
 const UI = {
-    moves: document.getElementById("moves"),
-    score: document.getElementById("score"),
-    time: document.getElementById("time"),
+    moves: document.querySelector(".moves"),
+    score: document.querySelector(".score"),
+    time: document.querySelector(".time"),
     board: document.querySelector(".game-board"),
-    spinner: document.getElementById("board-spinner"),
+    spinner: document.querySelector(".board-spinner"),
 };
 
 // ---- URL params ----
@@ -68,13 +68,13 @@ function hideSpinner() {
 }
 
 async function fetchCards(difficulty) {
-    const response = await fetch("http://localhost:3000/cards?difficulty=" + difficulty);
+    const response = await fetch(`${API_BASE}/cards?difficulty=` + difficulty);
     if (!response.ok) throw new Error("Failed to fetch cards: " + response.status);
     return response.json();
 }
 
 function submitScore(username, score, difficulty) {
-    return fetch("http://localhost:3000/score", {
+    return fetch(`${API_BASE}/score`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, score, difficulty }),
@@ -102,12 +102,12 @@ UI.board.querySelector(".card")?.remove();
 function createCardElement(emoji) {
     const card = cardTemplate.cloneNode(true);
     const inner = card.querySelector(".card-inner");
-    const img = card.querySelector("#cardImg");
+    const img = card.querySelector(".card-img");
 
     card.dataset.emojiName = emoji.name;
     card.style.display = "";
     card.style.visibility = "visible";
-    img.src = "http://localhost:3000/" + emoji.image;
+    img.src = `${API_BASE}/${emoji.image}`;
     img.alt = emoji.name;
     inner.classList.remove("flipped");
     inner.addEventListener("click", () => onCardClick(inner));
@@ -130,11 +130,26 @@ async function renderBoard() {
 
     showSpinner();
 
-    const pairs = await buildCardPairs(totalCards, DIFFICULTY);
-    if (state.gameOver) return; // guard: game ended while awaiting
+    try {
+        const pairs = await buildCardPairs(totalCards, DIFFICULTY);
+        if (state.gameOver) return;
 
-    hideSpinner();
-    pairs.forEach(emoji => UI.board.appendChild(createCardElement(emoji)));
+        hideSpinner();
+        pairs.forEach(emoji => UI.board.appendChild(createCardElement(emoji)));
+    } catch (error) {
+        hideSpinner();
+        showBoardError("Could not load cards. Check your connection and try again.");
+        console.error("renderBoard failed:", error);
+    }
+}
+
+function showBoardError(message) {
+    UI.board.innerHTML = `
+        <div class="board-error">
+            <p>⚠️ ${message}</p>
+            <button onclick="init()">Retry</button>
+        </div>
+    `;
 }
 
 function resetState() {
