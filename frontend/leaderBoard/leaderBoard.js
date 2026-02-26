@@ -10,8 +10,8 @@ link.href = `../levels/levels.html?playerName=${playerName}`;
 async function fetchLeaderboard(difficulty) {
   try {
     const url = difficulty
-      ? `http://localhost:3000/leaderboard?difficulty=${difficulty}`
-      : `http://localhost:3000/leaderboard`;
+      ? `${API_BASE}/leaderboard?difficulty=${difficulty}`
+      : `${API_BASE}/leaderboard`;
 
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

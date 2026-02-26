@@ -11,25 +11,25 @@
     <title>Memory Game</title>
 </head>
 <body>
-    <div id="game">
+    <div class="game">
         <!-- Score Panel -->
         <div class="score-panel">
             <div class="stat">
                 <span class="stat-label">Moves</span>
-                <span class="stat-value" id="moves">0</span>
+                <span class="stat-value moves" >0</span>
             </div>
             <div class="stat">
                 <span class="stat-label">Score</span>
-                <span class="stat-value" id="score">0</span>
+                <span class="stat-value score" >0</span>
             </div>
             <div class="stat">
                 <span class="stat-label">Time</span>
-                <span class="stat-value" id="time">0</span>
+                <span class="stat-value time" >0</span>
             </div>
         </div>
 
         <!--Board spinner-->
-        <div class="spinner-wrapper" id="board-spinner">
+        <div class="spinner-wrapper board-spinner">
             <div class="spinner"></div>
             <span class="spinner-label">Loading cards…</span>
         </div>
@@ -41,7 +41,7 @@
                         <img src="../assets/HYF.png" alt="Card Front">
                     </div>
                     <div class="back">
-                        <img id="cardImg" src="" alt="Card Back">
+                        <img class="card-img" src="" alt="Card Back">
                     </div>
                 </div>
             </div>
@@ -49,11 +49,12 @@
 
         <!-- Back Button -->
         <a class="level-page" href="../levels/levels.html">
-            <button id="back-btn">Back</button>
+            <button class="back-btn">Back</button>
         </a>
 
     </div>
 
+    <script src="../config.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

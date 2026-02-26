@@ -1,3 +1,5 @@
+@import "../keyframes.css";
+
 #victory {
     display: flex;
     align-items: center;
@@ -18,11 +20,6 @@
     max-width: 480px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
     animation: popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes popIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
 }
 
 .victory-card h1 {

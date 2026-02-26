@@ -85,12 +85,14 @@ app.post("/score", async (req, res) => {
       .where({ username, difficulty })
       .first();
 
-    if (existing) {
+    if (existing && score > score.existing) {
       await knexInstance("scores")
         .where({ username, difficulty })
         .update({ score });
 
       return res.status(200).json({ message: "Score updated successfully" });
+    } else if (existing) {
+      return res.status(200).json({message: "Score not updated.. ! New score is not high than previous score"})
     }
 
     await knexInstance("scores").insert({ username, score, difficulty });
@@ -98,7 +100,7 @@ app.post("/score", async (req, res) => {
     res.status(201).json({ message: "Score saved successfully" });
 
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
