@@ -103,7 +103,7 @@ UI.board.querySelector(".card")?.remove();
 function createCardElement(emoji) {
     const card = cardTemplate.cloneNode(true);
     const inner = card.querySelector(".card-inner");
-    const img = card.querySelector("#cardImg");
+    const img = card.querySelector(".card-image");
 
     card.dataset.emojiName = emoji.name;
     card.style.display = "";
