@@ -1,12 +1,19 @@
 
-const startButton = document.getElementById("startBtn");
+const form = document.querySelector("form");
 
-const getPlayerName = () => {
+const savePlayerName = () => {
     const playerName = document.getElementById("playerName").value;
 
-    // Store in localStorage
-    localStorage.setItem("player", playerName);
+    // validate and save in localstorage
+    playerName ? localStorage.setItem("player", playerName) : localStorage.setItem("player", "Player");
+
 }
-startButton.addEventListener("click", getPlayerName);
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    savePlayerName();
+    // Redirect to the levels page
+    window.location.href = "./levels/levels.html";
+
+});
 
 
