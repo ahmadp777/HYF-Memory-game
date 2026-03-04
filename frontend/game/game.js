@@ -10,7 +10,7 @@ const UI = {
 // ---- URL params ----
 const searchParams = new URLSearchParams(window.location.search);
 const DIFFICULTY = searchParams.get("level");
-const PLAYER_NAME = searchParams.get("playerName");
+const PLAYER_NAME = localStorage.getItem("player");
 
 // ---- Level config ----
 const LEVEL_CONFIG = {
@@ -239,7 +239,6 @@ async function onGameComplete() {
 
 function buildVictoryUrl() {
     const query = new URLSearchParams({
-        playerName: PLAYER_NAME || "",
         moves: state.moves,
         score: state.score,
         time: clock.seconds,
@@ -248,9 +247,6 @@ function buildVictoryUrl() {
     return "../endGamePanel/victory.html?" + query.toString();
 }
 
-document.querySelectorAll(".level-page").forEach(link => {
-    link.href = "../levels/levels.html?playerName=" + encodeURIComponent(PLAYER_NAME || "");
-});
 
 async function init() {
     resetState();
