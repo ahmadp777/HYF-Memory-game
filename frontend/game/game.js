@@ -42,6 +42,7 @@ function startClock() {
     clock.interval = setInterval(() => {
         clock.seconds++;
         UI.time.textContent = clock.seconds;
+        updateScore(-1);
     }, 1000);
     clock.started = true;
 }
@@ -102,7 +103,7 @@ UI.board.querySelector(".card")?.remove();
 function createCardElement(emoji) {
     const card = cardTemplate.cloneNode(true);
     const inner = card.querySelector(".card-inner");
-    const img = card.querySelector("#cardImg");
+    const img = card.querySelector(".card-image");
 
     card.dataset.emojiName = emoji.name;
     card.style.display = "";
@@ -199,7 +200,7 @@ async function evaluateMatch() {
     const isMatch = getEmojiName(state.firstCard) === getEmojiName(state.secondCard);
 
     if (isMatch) {
-        updateScore(+10);
+        updateScore(+15);
         await onMatchFound();
     } else {
         updateScore(-5);
@@ -249,8 +250,14 @@ function buildVictoryUrl() {
 
 
 async function init() {
-    resetState();
-    await renderBoard();
+    try {              
+      resetState();
+      await renderBoard();    
+    } catch (error) {
+        console.error("Error initializing game:", error);
+        alert("Failed to load game data. Please try again later.");
+        return;
+    }   
 }
 
 init();
